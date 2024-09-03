@@ -59,6 +59,11 @@ applications:
     # Alternate copies of the application to run as background processes.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#workers
     # workers:
+    workers:
+            queue:
+                commands:
+                    start: |
+                        python queue-worker.py  
 
     # The timezone for crons to run. Format: a TZ database name. Defaults to UTC, which is the timezone used for all logs
     # no matter the value here. More information: https://docs.upsun.com/create-apps/timezone.html
