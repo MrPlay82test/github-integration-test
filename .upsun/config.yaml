@@ -4,6 +4,13 @@ applications:
     # Application source code directory
     source:
       root: "/"
+      operations:
+        update-file:
+          command: |
+            set -e
+            curl -O https://example.com/myfile.txt
+            git add myfile.txt
+            git commit -m "Update remote file"
 
     # The runtime the application uses.
     # Complete list of available runtimes: https://docs.upsun.com/create-apps/app-reference.html#types
@@ -23,7 +30,6 @@ applications:
       mysql: "mysql:mysql"
       postgresql: "postgresql:postgresql"
       redis: "redis:redis"
-      
 
     # Mounts define directories that are writable after the build is complete.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#mounts
@@ -40,7 +46,7 @@ applications:
       commands:
         # The command to launch your app. If it terminates, it’s restarted immediately.
         # You can use the $PORT or the $SOCKET environment variable depending on the socket family of your upstream
-        start: "echo 'Put your web server command in here! You need to listen to \"$PORT\" port. Read more about it here: https://docs.upsun.com/create-apps/app-reference.html#web-commands'; sleep 60"
+        start: 'echo ''Put your web server command in here! You need to listen to "$PORT" port. Read more about it here: https://docs.upsun.com/create-apps/app-reference.html#web-commands''; sleep 60'
       # You can listen to a UNIX socket (unix) or a TCP port (tcp, default).
       # Whether your app should speak to the webserver via TCP or Unix socket. Defaults to tcp
       # More information: https://docs.upsun.com/create-apps/app-reference.html#where-to-listen
@@ -53,17 +59,15 @@ applications:
       locations:
         "/":
           passthru: true
-          
-        
 
     # Alternate copies of the application to run as background processes.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#workers
     # workers:
     workers:
-            queue:
-                commands:
-                    start: |
-                        python queue-worker.py  
+      queue:
+        commands:
+          start: |
+            python queue-worker.py
 
     # The timezone for crons to run. Format: a TZ database name. Defaults to UTC, which is the timezone used for all logs
     # no matter the value here. More information: https://docs.upsun.com/create-apps/timezone.html
@@ -102,16 +106,15 @@ applications:
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#build-hook
       build: |
         set -eux
-        
+
         # Add build steps here.
         # echo 'I am a build step'
-        
+
       # The deploy hook is run after the app container has been started, but before it has started accepting requests.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
       deploy: |
         set -eux
         # echo 'Put your deploy command here'
-        
 
       # The post_deploy hook is run after the app container has been started and after it has started accepting requests.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
@@ -145,8 +148,6 @@ services:
 
   redis:
     type: redis:7.0 # All available versions are: 7.0, 6.2
-
-  
 
 # The routes of the project.
 #
